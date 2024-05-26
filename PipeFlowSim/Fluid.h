@@ -1,7 +1,8 @@
 #ifndef FLUID_H
 #define FLUID_H
 
-class Fluid {
+class Fluid 
+{
 public:
     Fluid(double density, double viscosity);
     double getDensity() const;

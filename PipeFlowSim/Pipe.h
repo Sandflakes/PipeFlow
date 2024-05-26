@@ -7,22 +7,25 @@ class Node;
 
 class Pipe {
 public:
-    Pipe(Node* start, Node* end, double length, double diameter, const Fluid& fluid);
+    Pipe(Node* start, Node* end, double length, double diameter, Fluid& fluid);
 
     Node* getStart() const;
     Node* getEnd() const;
     double getLength() const;
     double getDiameter() const;
-
-    double calculateFlowRate() const;
-    double calculatePressureDrop() const;
+    double getArea() const;
+    double getVolume() const;
+    Fluid& getFluid() const;
+    
+    double calculateFlowRate();
+    double calculatePressureDifference();
 
 private:
     Node* start;
     Node* end;
     double length;
     double diameter;
-    const Fluid& fluid;
+    Fluid& fluid;
 };
 
 #endif // PIPE_H
