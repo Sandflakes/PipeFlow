@@ -36,9 +36,14 @@ double Pipe::getArea() const
     return M_PI * std::pow(diameter / 2.0, 2);
 }
 
-double Pipe::getVolume() const
+double Pipe::getTotalVolume() const
 {
     return getArea() * length;
+}
+
+double Pipe::getVolume() const
+{
+    return volume;
 }
 
 Fluid& Pipe::getFluid() const
@@ -47,22 +52,30 @@ Fluid& Pipe::getFluid() const
 }
 
 // Calculate flow rate using Hagen-Poiseuille Equation
-double Pipe::calculateFlowRate()
+double Pipe::calculateFlowRate(double dP)
 {
     double radius = diameter / 2.0;
 
-    double dP = calculatePressureDifference();
     double flowRate = (M_PI * pow(radius, 4) * dP) / (8 * fluid.getViscosity() * length);
     return flowRate;
 }
 
-// Calculate losses in pressure due to resistance in pipes and elevation change
+// Calculate difference in pressure between two nodes including elevation
 double Pipe::calculatePressureDifference()
 {
-    double pressureOut = 0;
+    double pressureDifference = abs(start->getPressure() - end->getPressure());
+    double elevationChange = abs(end->getZ() - start->getZ());
 
-    double pressureDifference = start->getPressure() - end->getPressure();
-    double elevationChange = end->getZ() - start->getZ();
+    double gravityEffect = fluid.getDensity() * 9.82 * elevationChange;
+
+    return std::max(0.0, pressureDifference - gravityEffect);
+}
+
+// Calculate losses in pressure due to resistance in pipes
+double Pipe::calculatePressureDrop()
+{
+    //double pressureOut = 0;
+
 
     // TODO: Fix friction calculation 
     //// Darcy-Weisbach friction factor
@@ -71,18 +84,9 @@ double Pipe::calculatePressureDifference()
     //double frictionLoss = (f * length * fluid.getDensity() * pow(estimatedVelocity, 2)) / (diameter * 2);
 
 
-    // Simplify code by extracting the direction
-    double flowDir = signbit(pressureDifference) ? -1 : 1;
-    double elevationDir = signbit(elevationChange) ? -1 : 1;
-
-    pressureDifference = abs(pressureDifference);
-    elevationChange = abs(elevationChange);
-    
-
-    double gravityEffect = fluid.getDensity() * 9.82 * elevationChange;
-
-    pressureOut = std::max(0.0, pressureDifference - gravityEffect * elevationDir * flowDir) * flowDir;
 
 
-    return pressureOut;
+    double pressureDrop = 0;
+
+    return pressureDrop;
 }

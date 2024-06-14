@@ -8,7 +8,7 @@ int main()
 
     Network network;
 
-    Node* N0 = network.createNode(100000, 0.0, 0.0, 10.0);
+    Node* N0 = network.createNode(100000, 0.0, 0.0, 0.0);
     Node* N1 = network.createNode(0, 0.0, 0.0, 0.0);
     Node* N2 = network.createNode(0, 0.0, 0.0, 0.0);
     Node* N3 = network.createNode(0, 0.0, 0.0, 0.0);

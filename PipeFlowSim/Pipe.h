@@ -14,13 +14,16 @@ public:
     double getLength() const;
     double getDiameter() const;
     double getArea() const;
+    double getTotalVolume() const;
     double getVolume() const;
     Fluid& getFluid() const;
     
-    double calculateFlowRate();
+    double calculateFlowRate(double dp);
     double calculatePressureDifference();
+    double calculatePressureDrop();
 
 private:
+    double volume;
     Node* start;
     Node* end;
     double length;

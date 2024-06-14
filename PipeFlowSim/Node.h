@@ -2,10 +2,10 @@
 #define NODE_H
 
 #include <vector>
+#include "Pipe.h"
 
-class Pipe;
-
-class Node {
+class Node
+{
 public:
     Node(double pressure = 0.0, double x = 0.0, double y = 0.0, double z = 0.0);
     ~Node();
@@ -13,18 +13,18 @@ public:
     double getPressure() const;
     void setPressure(double pressure);
 
-    void addOutgoingPipe(Pipe* pipe);
-    void addIncomingPipe(Pipe* pipe);
+    void addPipe(Pipe* pipe);
 
     double getX() const;
     double getY() const;
     double getZ() const;
 
+    void distributePressureChanges(double timeStep);
+
 private:
     double pressure;
     double x, y, z; // 3D coordinates
-    std::vector<Pipe*> outgoingPipes;
-    std::vector<Pipe*> incomingPipes;
+    std::vector<Pipe*> connectedPipes;
 };
 
 #endif // NODE_H
